@@ -8,6 +8,7 @@
 #include <crypto/p224_spake.h>
 
 #include <algorithm>
+#include <cstring>
 
 #include <base/logging.h>
 #include <crypto/p224.h>

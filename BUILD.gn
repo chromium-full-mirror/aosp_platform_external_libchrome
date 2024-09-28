@@ -12,7 +12,6 @@ import("//common-mk/pkg_config.gni")
 group("all") {
   deps = [
     ":libchrome",
-    ":libchrome-test",
   ]
   if (use.mojo) {
     deps += [ ":libmojo" ]
@@ -34,17 +33,10 @@ config("libchrome_config") {
 
   include_dirs = [ ".", "${sysroot}/usr/include/perfetto" ]
   cflags = [
-    "-Wno-deprecated-register",
     "-Wno-narrowing",
-    "-Wno-unreachable-code-return",
     "-Wno-unused-local-typedefs",
-    "-Xclang-only=-Wno-char-subscripts",
   ]
 
-  # Address sanitizer + coverage builds do not support -z,defs.
-  if (!(use.asan || use.coverage)) {
-    ldflags = [ "-Wl,-z,defs" ]
-  }
 }
 
 config("base_core_config") {
@@ -487,23 +479,6 @@ if (use.dbus) {
         "dbus/values_util.cc",
       ]
     },
-
-    {
-      name = "base-dbus_test_support"
-      testonly = true
-      pkg_deps = [ "dbus-1" ]
-      if (use.fuzzer) {
-        pkg_deps += [ "protobuf" ]
-      } else {
-        pkg_deps += [ "protobuf-lite" ]
-      }
-      sources = [
-        "dbus/mock_bus.cc",
-        "dbus/mock_exported_object.cc",
-        "dbus/mock_object_manager.cc",
-        "dbus/mock_object_proxy.cc",
-      ]
-    },
   ]
 }
 
@@ -574,7 +549,7 @@ action("base") {
 
   script = "//common-mk/write_args.py"
   outputs = [ "${root_out_dir}/lib/lib${target_name}.so" ]
-  args = [ "--output" ] + outputs + [ "--" ] + [
+  args = [ "--output" ] + rebase_path(outputs) + [ "--" ] + [
            "GROUP",
            "(",
            "AS_NEEDED",
@@ -593,7 +568,6 @@ action("base") {
 
 libchrome_exported_cflags = [
   "-I/usr/include/libchrome",
-  "-I/usr/include/perfetto",
   "-Wno-unused-local-typedefs",
   "-DBASE_VER=${libbase_ver}",
 ]
@@ -638,7 +612,7 @@ action("base-test") {
 
   script = "//common-mk/write_args.py"
   outputs = [ "${root_out_dir}/lib${target_name}.a" ]
-  args = [ "--output" ] + outputs + [ "--" ] + [
+  args = [ "--output" ] + rebase_path(outputs) + [ "--" ] + [
            "GROUP",
            "(",
            "AS_NEEDED",

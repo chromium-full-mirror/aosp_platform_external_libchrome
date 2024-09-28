@@ -23,6 +23,7 @@
 
 #include "base/hash/md5.h"
 
+#include <cstring>
 #include <stddef.h>
 
 namespace {
