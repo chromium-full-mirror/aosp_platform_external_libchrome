@@ -43,13 +43,13 @@ LIBCHROME_LDFLAGS:=["-Wl,-O2","-Wl,--as-needed","-Wl,-Bdynamic", \
   "-L$(STAGING_DIR_ROOT)/usr/lib"]
 
 USE_FLAGS:={coverage=false arm=$(ARM_ARCH) abi_x86_64=$(X86_ARCH) \
-  amd64=$(X86_ARCH) mojo=false cros_host=true fuzzer=false test=false \
+  amd64=$(X86_ARCH) mojo=false cros_host=false fuzzer=false test=false \
   asan=false dbus=true crypto=true timers=true profiling=false tcmalloc=false}
 
 GN_ARGS:=platform_subdir="libchrome" OS="linux" \
 	 platform2_root="$(BUILD_DIR)" \
 	 build_root="$(PKG_BUILD_DIR)/" \
-	 sysroot="$(STAGING_DIR)" \
+	 sysroot="$(STAGING_DIR_ROOT)" \
 	 libdir="$(STAGING_DIR_ROOT)/usr/lib" \
 	 libbase_ver="860220" \
 	 pkg_config="$(STAGING_DIR_HOST)/bin/pkg-config" \
@@ -65,7 +65,7 @@ GN_ARGS:=platform_subdir="libchrome" OS="linux" \
 HEADERS_DIRS:=base base/allocator base/containers base/debug base/files \
   base/functional base/hash base/i18n base/json base/memory base/numerics \
   base/posix base/process base/ranges base/strings base/synchronization \
-  base/system base/task base/task/common base/task/sequence-manager \
+  base/system base/task base/task/common base/task/sequence_manager \
   base/task/thread_pool base/third_party/icu base/third_party/nspr \
   base/third_party/valgrind base/threading base/time base/timer \
   base/trace_event base/trace_event/common base/types \

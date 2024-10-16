@@ -36,7 +36,10 @@ config("libchrome_config") {
     "-Wno-narrowing",
     "-Wno-unused-local-typedefs",
   ]
-
+  # Address sanitizer + coverage builds do not support -z,defs.
+  if (!(use.asan || use.coverage)) {
+    ldflags = [ "-Wl,-z,defs" ]
+  }
 }
 
 config("base_core_config") {
