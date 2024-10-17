@@ -6,6 +6,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=libchrome
 PKG_RELEASE:=1
+PKG_BUILD_DEPENDS:=modp_b64
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -13,7 +14,7 @@ define Package/$(PKG_NAME)
   SECTION:=gwifi
   CATEGORY:=Nest WiFi Mesh Solutions
   SUBMENU:=Libs
-  DEPENDS:=+modp_b64 +protobuf +glib2 +libopenssl +libgcrypt +libdbus +libcurl
+  DEPENDS:=+protobuf +glib2 +libopenssl +libgcrypt +libdbus +libcurl
   DEPENDS+=+nspr +libevent2 +libnss +abseil-cpp +googletest +double-conversion
   DEPENDS+=+re2
   TITLE:=Chrome base/ and dbus/ libraries extracted for use on Chrome OS.
